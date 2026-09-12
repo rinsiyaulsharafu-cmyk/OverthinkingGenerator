@@ -1,1 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Overthinking Generator: Turn simple everyday moments into catastrophic, hilarious 6-step overthinking chains with voice input and shareable report cards.">
+    <title>🧠 Overthinking Generator — Because one thought is never enough</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- html2canvas for generating high-res downloadable report cards -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+</head>
+
+<body>
+
+    <div class="background-glow glow-1"></div>
+    <div class="background-glow glow-2"></div>
+
+    <main class="container">
+
+        <header class="app-header">
+            <div class="badge">✨ AI SPIRAL ENGINE v7.0</div>
+            <h1>🧠 Overthinking Generator</h1>
+            <p class="tagline">Because one thought is never enough.</p>
+        </header>
+
+        <!-- Quick Preset Chips -->
+        <div class="preset-section">
+            <span class="preset-label">Quick Scenarios:</span>
+            <div class="preset-chips" id="presetChips">
+                <button type="button" class="chip" data-text="Why did my friend see my message but not reply?">Left on read 📱</button>
+                <button type="button" class="chip" data-text="Rinziya is not replying to my texts">Rinziya is silent 😭</button>
+                <button type="button" class="chip" data-text="My boss said 'Do you have a quick minute?'">Boss: 'Got a sec?' 💼</button>
+                <button type="button" class="chip" data-text="I said 'You too' when the waiter told me to enjoy my food">Enjoy your food 🫣</button>
+                <button type="button" class="chip" data-text="My crush just replied with lowercase 'k'">Crush said 'k' 💀</button>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-wrapper">
+            <label for="userInput" class="sr-only">Enter your situation</label>
+            <textarea
+                id="userInput"
+                rows="4"
+                placeholder="Enter any situation... (e.g., 'Why did my friend see my message but not reply?')"
+                maxlength="400"
+            ></textarea>
+            
+            <div class="input-footer">
+                <span id="charCount" class="char-count">0 / 400</span>
+                <button id="voiceButton" type="button" class="btn-voice" title="Speak your situation">
+                    <span class="mic-icon">🎤</span>
+                    <span id="voiceButtonText">SPEAK</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Voice Status Notice -->
+        <div id="voiceStatus" class="voice-status" aria-live="polite"></div>
+
+        <!-- Main Action Buttons -->
+        <div class="action-buttons">
+            <button id="overthinkButton" class="btn-primary">
+                🧠 OVERTHINK THIS
+            </button>
+            <button id="randomBtn" type="button" class="btn-secondary" title="Pick a random dilemma">
+                🎲 Random
+            </button>
+        </div>
+
+        <!-- Stream of Thoughts / Live Progress -->
+        <div id="result" class="result-container" aria-live="polite"></div>
+
+        <!-- Shareable Report Card Container (Version 7) -->
+        <section id="reportSection" class="report-section hidden">
+            
+            <div class="report-wrapper">
+                <!-- This card element is captured for PNG download -->
+                <article id="reportCard" class="report-card">
+                    
+                    <div class="report-card-header">
+                        <div class="report-brand">
+                            <span class="report-logo">🧠</span>
+                            <div>
+                                <h2 class="report-title">OVERTHINKING REPORT</h2>
+                                <p class="report-subtitle">Official Overthinking Diagnostic Assessment</p>
+                            </div>
+                        </div>
+                        <div class="report-stamp" id="reportStamp">CERTIFIED DELULU</div>
+                    </div>
+
+                    <div class="report-card-body">
+                        
+                        <!-- Situation Section -->
+                        <div class="report-field">
+                            <div class="report-label">SITUATION UNDER INVESTIGATION</div>
+                            <div class="report-value situation-box" id="reportSituation">
+                                "Why did my friend see my message but not reply?"
+                            </div>
+                        </div>
+
+                        <!-- Score Section -->
+                        <div class="report-metrics">
+                            <div class="metric-card">
+                                <div class="metric-label">OVERTHINKING LEVEL</div>
+                                <div class="metric-score" id="reportLevel">97%</div>
+                                <div class="metric-bar-bg">
+                                    <div class="metric-bar-fill" id="reportBar" style="width: 97%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card verdict-card">
+                                <div class="metric-label">FINAL VERDICT</div>
+                                <div class="verdict-tag" id="reportVerdict">💀 EXTREME DELULU</div>
+                            </div>
+                        </div>
+
+                        <!-- Thoughts Section -->
+                        <div class="report-field">
+                            <div class="report-label">THOUGHT SPIRAL EVIDENCE (6 STAGES)</div>
+                            <div class="report-thoughts-list" id="reportThoughtsList">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer of the card -->
+                    <div class="report-card-footer">
+                        <span>Generated by <strong>Overthinking Generator AI</strong></span>
+                        <span id="reportDate">Sept 2026</span>
+                    </div>
+
+                </article>
+            </div>
+
+            <!-- Report Card Action Buttons -->
+            <div class="report-actions">
+                <button id="downloadReportBtn" class="btn-export download-btn">
+                    📸 DOWNLOAD REPORT
+                </button>
+                <button id="shareReportBtn" class="btn-export share-btn">
+                    📤 SHARE
+                </button>
+                <button id="clearBtn" class="btn-secondary">
+                    🔄 Start Over
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Interactive Toast Notification -->
+    <div id="toast" class="toast" role="alert" aria-live="assertive"></div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
